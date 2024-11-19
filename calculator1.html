@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transparent Calculator</title>
+  <style>
+    /* General Page Styling */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #282c34, #3c3f41);
+      font-family: Arial, sans-serif;
+      background-image: url("https://images4.alphacoders.com/134/1341419.png");
+      background-position: center;
+    }
+
+    /* Calculator Styling */
+    .calculator-container {
+      width: 320px;
+      padding: 20px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #display {
+      width: 100%;
+      height: 50px;
+      padding: 10px;
+      font-size: 24px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: #ffffff;
+      text-align: right;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+    }
+
+    .calculator-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      padding: 20px;
+      font-size: 18px;
+      color: #ffffff;
+      background-color: rgba(0, 0, 0, 0.3);
+      border: none;
+      border-radius: 8px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <!-- Calculator Container -->
+  <div class="calculator-container">
+    <!-- Display Screen -->
+    <input type="text" id="display" disabled>
+    
+    <!-- Calculator Buttons -->
+    <div class="calculator-buttons">
+      <button onclick="clearDisplay()">AC</button>
+      <button onclick="appendToDisplay('%')">%</button>
+      <button onclick="appendToDisplay('/')">÷</button>
+      <button onclick="appendToDisplay('*')">×</button>
+      <button onclick="appendToDisplay('7')">7</button>
+      <button onclick="appendToDisplay('8')">8</button>
+      <button onclick="appendToDisplay('9')">9</button>
+      <button onclick="appendToDisplay('-')">-</button>
+      <button onclick="appendToDisplay('4')">4</button>
+      <button onclick="appendToDisplay('5')">5</button>
+      <button onclick="appendToDisplay('6')">6</button>
+      <button onclick="appendToDisplay('+')">+</button>
+      <button onclick="appendToDisplay('1')">1</button>
+      <button onclick="appendToDisplay('2')">2</button>
+      <button onclick="appendToDisplay('3')">3</button>
+      <button onclick="calculateResult()">=</button>
+      <button onclick="appendToDisplay('0')">0</button>
+      <button onclick="appendToDisplay('.')">.</button>
+    </div>
+  </div>
+
+  <!-- JavaScript Functionality -->
+  <script>
+    // Append value to display
+    function appendToDisplay(value) {
+      const display = document.getElementById('display');
+      display.value += value;
+    }
+
+    // Clear display
+    function clearDisplay() {
+      const display = document.getElementById('display');
+      display.value = '';
+    }
+
+    // Calculate result
+    function calculateResult() {
+      const display = document.getElementById('display');
+      try {
+        display.value = eval(display.value);
+      } catch (e) {
+        display.value = 'Error';
+      }
+    }
+
+    // Enable keyboard input
+    document.addEventListener('keydown', function(event) {
+      const display = document.getElementById('display');
+      if (event.key >= '0' && event.key <= '9') {
+        // Append number
+        appendToDisplay(event.key);
+      } else if (['+', '-', '*', '/', '%'].includes(event.key)) {
+        // Append operator
+        appendToDisplay(event.key);
+      } else if (event.key === 'Enter') {
+        // Calculate result on Enter key
+        calculateResult();
+      } else if (event.key === 'Backspace') {
+        // Remove the last character on Backspace
+        display.value = display.value.slice(0, -1);
+      } else if (event.key === 'Escape') {
+        // Clear display on Escape key
+        clearDisplay();
+      }
+    });
+  </script>
+</body>
+</html>
